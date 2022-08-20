@@ -53,7 +53,7 @@ function add_elements(plugin){
         pluginContainer.className = "row";
         
         var pluginTitle = document.createElement("h4");
-        pluginTitle.innerHTML = `<a href="https://plugins.octoprint.org/plugins/` + plugin.name + '">' + plugin.title + `</a>`;
+        pluginTitle.innerHTML = `<a href="https://plugins.octoprint.org/plugins/` + plugin.name + '" target="_blank">' + plugin.title + `</a>`;
         pluginContainer.appendChild(pluginTitle);
 
         var instanceGraph = document.createElement("div");
