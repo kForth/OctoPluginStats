@@ -13,7 +13,7 @@ from typing import Dict, Union
 
 import requests
 
-PLUGIN_AUTHOR: str = "Kestin Goforth"
+PLUGIN_AUTHOR: str = "{{cookiecutter.your_name}}"
 
 DATA_URL: str = "https://plugins.octoprint.org/plugins.json"
 
