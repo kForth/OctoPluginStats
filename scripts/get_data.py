@@ -9,6 +9,7 @@ import json
 import time
 import copy
 import os
+import re
 from typing import Dict, Union
 
 PLUGIN_AUTHOR: str = "Kestin Goforth"
@@ -31,9 +32,7 @@ DATA: Dict[str, Dict[str, Union[int, str, list]]] = {}
 
 TODAY = time.strftime("%Y-%m-%d")
 
-# Incremented for testing
-# TODAY = "2021-01-02"
-
+RE_GITHUB = re.compile(r"(?:https?:\/\/)github.com\/(?:.*)\/(.*)")
 
 # Read current data (if any)
 if os.path.isfile(os.path.abspath(os.path.join("data", "stats.json"))):
@@ -59,7 +58,12 @@ for plugin in response:
 
         plugin_stats = copy.deepcopy(DATA[plugin_id])
         plugin_stats["total"] = plugin["stats"]["instances_month"]
-        plugin_stats["title"] = plugin["title"]
+
+        # Try to get the plugin title from the github homepage
+        if re_match := RE_GITHUB.match(plugin["homepage"]):
+            plugin_stats["title"] = re_match.group(1)
+        else:
+            plugin_stats["title"] = plugin["title"]
 
         # Remove the 31st day, if relevant
         if len(plugin_stats["history"]) >= 30:
