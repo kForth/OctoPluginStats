@@ -1,0 +1,14 @@
+title: OctoPluginStats
+email: kgoforth1503@gmail.com
+description: Kestin Goforth's OctoPrint Plugin Statistics
+baseurl: "/"
+url: "https://kforth.github.io/OctoPluginStats"
+
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - .flake8
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - pyproject.toml
