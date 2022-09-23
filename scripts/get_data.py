@@ -4,13 +4,14 @@ if not sys.version_info.major == 3 and int(sys.version_info.minor) >= 7:
     print("Incompatible Python version, need 3.7+")
     sys.exit(-1)
 
-import requests
-import json
-import time
 import copy
+import json
 import os
 import re
+import time
 from typing import Dict, Union
+
+import requests
 
 PLUGIN_AUTHOR: str = "Kestin Goforth"
 
@@ -72,15 +73,17 @@ for plugin in response:
                 # remove earliest data
                 plugin_stats["history"].pop(0)
 
-        if not len(plugin_stats["history"]) or (
-                len(plugin_stats["history"]) and plugin_stats["history"][-1]["date"]
-        ) != TODAY:
+        if (
+            not len(plugin_stats["history"])
+            or (len(plugin_stats["history"]) and plugin_stats["history"][-1]["date"])
+            != TODAY
+        ):
             # Add the latest point to the history
             plugin_stats["history"].append(
                 {
                     "date": TODAY,
                     "total": plugin["stats"]["instances_month"],
-                    "issues": plugin["github"]["issues"]
+                    "issues": plugin["github"]["issues"],
                 }
             )
 
