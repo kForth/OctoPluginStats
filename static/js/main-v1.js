@@ -26,7 +26,6 @@ function GetSortOrderDesc(prop){
 function getData() {
     ajaxGet(PATH_TO_STATS, function (response){
         var data = JSON.parse(response.responseText);
-        //console.log(data);
         //push data into an array
         let sortArray = [];
         for (let plugin in data){
@@ -34,10 +33,8 @@ function getData() {
             item.name = plugin;
             sortArray.push(item);
         }
-        //console.log(sortArray);
         // sort based on totals
         sortArray.sort(GetSortOrderDesc('total'));
-        console.log(sortArray);
         for (let plugin in sortArray){
             window.setTimeout(add_elements, 5, sortArray[plugin]);
         }
@@ -53,8 +50,19 @@ function add_elements(plugin){
         pluginContainer.className = "row";
         
         var pluginTitle = document.createElement("h4");
+        pluginTitle.className = "text-center";
         pluginTitle.innerHTML = `<a href="https://plugins.octoprint.org/plugins/` + plugin.name + '" target="_blank">' + plugin.title + `</a>`;
         pluginContainer.appendChild(pluginTitle);
+
+        var pluginShields = document.createElement("div");
+        pluginShields.id = plugin.name + "Shields";
+        pluginShields.className = "mb-2 text-center";
+        pluginShields.innerHTML = `
+        <a href="https://plugins.octoprint.org/plugins/${plugin.name}/" target="_blank"><img alt="For OctoPrint" src="https://img.shields.io/badge/OctoPrint-white?style=flat&logo=OctoPrint"></a>
+        <a href="https://plugins.octoprint.org/plugins/${plugin.name}/" target="_blank"><img alt="Custom badge" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fdata%2Fshields%2F${plugin.name}%2Ftotal.json"></a>
+        <img alt="GitHub" src="https://img.shields.io/github/license/kforth/${plugin.title}?labelColor=white&color=brightgreen">
+        `;
+        pluginContainer.appendChild(pluginShields);
 
         var instanceGraph = document.createElement("div");
         instanceGraph.id = plugin.name + "Instances";
