@@ -5,13 +5,13 @@ if not sys.version_info.major == 3 and int(sys.version_info.minor) >= 7:
     sys.exit(-1)
 
 import copy
-import json
 import os
 import re
 import time
 from typing import Dict, Union
 
 import requests
+import yaml
 
 PLUGIN_AUTHOR: str = "Kestin Goforth"
 
@@ -35,11 +35,15 @@ TODAY = time.strftime("%Y-%m-%d")
 
 RE_GITHUB = re.compile(r"(?:https?:\/\/)github.com\/(?:.*)\/(.*)")
 
+DATA_DIR = os.path.abspath("_data")
+STATS_FILE = os.path.join(DATA_DIR, "stats.yml")
+
 # Read current data (if any)
-if os.path.isfile(os.path.abspath(os.path.join("data", "stats.json"))):
+if os.path.isfile(STATS_FILE):
     print("Reading stored data")
-    with open(os.path.abspath(os.path.join("data", "stats.json")), "rt") as file:
-        DATA = json.load(file)
+    with open(STATS_FILE, "rt") as file:
+        raw = yaml.load(file, Loader=yaml.Loader)
+        DATA = {e["name"]: e for e in raw}
 
 # Get the data
 
@@ -53,33 +57,30 @@ for plugin in response:
         # Test plugin data exists
         try:
             existing_data = DATA[plugin_id]
-        except KeyError:
+        except (KeyError, TypeError):
             # Plugin not seen before, create the dict
             DATA[plugin_id] = {"total": 0, "history": []}
 
-        plugin_stats = copy.deepcopy(DATA[plugin_id])
-        plugin_stats["total"] = plugin["stats"]["instances_month"]
+        stats = copy.deepcopy(DATA[plugin_id])
+        stats["name"] = plugin_id
+        stats["total"] = plugin["stats"]["instances_month"]
 
         # Try to get the plugin title from the github homepage
         if re_match := RE_GITHUB.match(plugin["homepage"]):
-            plugin_stats["title"] = re_match.group(1)
+            stats["title"] = re_match.group(1)
         else:
-            plugin_stats["title"] = plugin["title"]
+            stats["title"] = plugin["title"]
 
         # Remove the 31st day, if relevant
-        if len(plugin_stats["history"]) >= 30:
+        if len(stats["history"]) >= 30:
             # Check it's not been run more than once per day, latest data is not today.
-            if plugin_stats["history"][29]["date"] != TODAY:
+            if stats["history"][29]["date"] != TODAY:
                 # remove earliest data
-                plugin_stats["history"].pop(0)
+                stats["history"].pop(0)
 
-        if (
-            not len(plugin_stats["history"])
-            or (len(plugin_stats["history"]) and plugin_stats["history"][-1]["date"])
-            != TODAY
-        ):
+        if not len(stats["history"]) or stats["history"][-1]["date"] != TODAY:
             # Add the latest point to the history
-            plugin_stats["history"].append(
+            stats["history"].append(
                 {
                     "date": TODAY,
                     "total": plugin["stats"]["instances_month"],
@@ -88,10 +89,10 @@ for plugin in response:
             )
 
         # Put the data back
-        DATA[plugin_id] = plugin_stats
+        DATA[plugin_id] = stats
 
 # write back to the file
-with open(os.path.abspath(os.path.join("data", "stats.json")), "wt") as file:
-    json.dump(DATA, file)
+with open(STATS_FILE, "wt") as file:
+    yaml.dump(list(DATA.values()), file, Dumper=yaml.Dumper)
 
 print("Done!")

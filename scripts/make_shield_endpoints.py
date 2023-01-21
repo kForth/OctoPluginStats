@@ -8,6 +8,8 @@ import json
 import os
 from typing import Dict, Union
 
+import yaml
+
 DATA: Dict[str, Dict[str, Union[int, str, list]]] = {}
 
 DEFAULT = {
@@ -18,20 +20,23 @@ DEFAULT = {
 }
 
 # Read current stats
-if os.path.isfile(os.path.abspath(os.path.join("data", "stats.json"))):
+DATA_DIR = os.path.abspath("_data")
+STATS_FILE = os.path.join(DATA_DIR, "stats.yml")
+if os.path.isfile(STATS_FILE):
     print("Reading stored data")
-    with open(os.path.abspath(os.path.join("data", "stats.json")), "rt") as file:
-        DATA = json.load(file)
+    with open(STATS_FILE, "rt") as file:
+        DATA = yaml.load(file, Loader=yaml.Loader)
 
 # Process the data
-SHIELDS_DIR = os.path.abspath(os.path.join("data", "shields"))
-for plugin_id, data in DATA.items():
-    print("Creating endpoints for {}".format(plugin_id))
-    PLUGIN_DIR = os.path.join(SHIELDS_DIR, plugin_id)
+SHIELDS_DIR = os.path.abspath("shields")
+for plugin in DATA:
+    print("Creating endpoints for {}".format(plugin["name"]))
+    PLUGIN_DIR = os.path.join(SHIELDS_DIR, plugin["name"])
     os.makedirs(PLUGIN_DIR, exist_ok=True)
+
     with open(os.path.join(PLUGIN_DIR, "total.json"), "w+") as file:
         json.dump(
-            {**DEFAULT, "label": "Installations", "message": str(data["total"])}, file
+            {**DEFAULT, "label": "Installations", "message": str(plugin["total"])}, file
         )
 
 print("Done!")

@@ -1,10 +1,12 @@
 ---
 title: Kestin Goforth's Plugin Stats
 layout: base
+scripts:
+ - static/js/main-v1.js?v=1.2.2
 ---
 
 <section class="py-5 text-center container">
-    <div class="row py-lg-5">
+    <div class="row pt-lg-4 pb-2">
         <div class="col-lg-6 col-md-8 mx-auto">
             <h1 class="fw-light">OctoPrint Plugin Statistics</h1>
             <div class="btn-group">
@@ -12,13 +14,28 @@ layout: base
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
               <div class="dropdown-menu" id="btnContainer">
+                {%- for plugin in site.data.stats %}
+                <a href="#{{ plugin.name }}" class="dropdown-item">{{ plugin.title }}</a>
+                {%- endfor %}
               </div>
             </div>
         </div>
     </div>
 </section>
 <section id="statsOverview" class="py-2 container">
-    <div class="row-fluid">
+  <div class="row-fluid text-center">
+    {%- for plugin in site.data.stats %}
+    <div id="{{ plugin.name }}" class="col-md-6 sm-sm-12">
+      <h4 class="text-center">
+        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}" target="_blank">{{ plugin.title }}</a>
+      </h4>
+      <div class="mb-2 text-center">
+        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img alt="For OctoPrint" src="https://img.shields.io/badge/OctoPrint-white?style=flat&logo=OctoPrint"></a>
+        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img alt="Total Installations" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Ftotal.json"></a>
+        <img alt="GitHub" src="https://img.shields.io/github/license/kforth/{{ plugin.title }}?labelColor=white&color=brightgreen">
+      </div>
+      <div id="{{ plugin.name }}Instances" class="plugin-chart" data-plugin="{{ plugin.title }}" data-x="{{ plugin.history | map: 'date' | join: ' ' }}" data-y="{{ plugin.history | map: 'total' | join: ' ' }}"></div>
     </div>
+    {%- endfor %}
+  </div>
 </section>
-<script src="static/js/main-v1.js?v=1.2.2"></script>

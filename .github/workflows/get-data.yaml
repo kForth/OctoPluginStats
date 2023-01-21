@@ -17,7 +17,7 @@ jobs:
           python-version: 3.9
       - name: Install dependencies
         run: |
-          python -m pip install requests
+          python -m pip install requests PyYAML
       - name: 🚀 Update Plugin Stats
         run: |
           python scripts/get_data.py

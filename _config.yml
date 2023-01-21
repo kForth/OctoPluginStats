@@ -12,3 +12,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - pyproject.toml
+  - yarn.lock
+  - yarn-error.log
+  - package.json
+  - package-lock.json

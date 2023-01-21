@@ -1,24 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Site CSS -->
-    <link href="static/css/main.css" rel="stylesheet">
-
-    <!-- Plotly -->
-    <script src="static/lib/plotly/plotly.min.js"></script>
+    <link rel="stylesheet" href="static/css/styles.css" />
 
     <title>{{ page.title }}</title>
-</head>
-<body>
-{% include navbar.html %}
+  </head>
+  <body id="top">
+    {% include navbar.html %}
 
-<div class="container-fluid">
-    {{ content }}
-</div>
-<button class="btn btn-outline-secondary" onclick="topFunction()" id="top_btn" title="Go to top"><i class="fas fa-arrow-up fa-2x"></i></button>
-<script src="static/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-</body>
+    <div class="container-fluid">{{ content }}</div>
+    <a class="btn btn-outline-secondary" href="#top" title="Go to top">
+      <i class="fas fa-arrow-up fa-2x"></i>
+    </a>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/plotly.js-dist/plotly.js"></script>
+    {%- for script in page.scripts %}
+    <script src="{{ script }}"></script>
+    {%- endfor %}
+  </body>
 </html>
