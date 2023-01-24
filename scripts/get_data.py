@@ -106,18 +106,38 @@ for plugin in response:
 with open(STATS_FILE, "wt") as file:
     yaml.dump(list(DATA.values()), file, Dumper=yaml.Dumper)
 
-# Update shields endpoints
+# Update plugin shields endpoints
 for plugin in DATA.values():
     PLUGIN_DIR = os.path.join(SHIELDS_DIR, plugin["name"])
-    print("Creating endpoints for {}".format(plugin["name"]))
+    print("Updating shields for {}".format(plugin["name"]))
     os.makedirs(PLUGIN_DIR, exist_ok=True)
 
     def write_shield_endpoint(name, label, message):
         with open(os.path.join(PLUGIN_DIR, f"{name}.json"), "w+") as file:
-            json.dump({**DEFAULT_SHIELD, "label": label, "message": message}, file)
+            json.dump({**DEFAULT_SHIELD, "label": label, "message": str(message)}, file)
 
-    write_shield_endpoint("total", "Active Instances", str(plugin["total"]))
-    write_shield_endpoint("month", "New Monthly", str(plugin["month"]))
-    write_shield_endpoint("week", "New Weekly", str(plugin["week"]))
+    write_shield_endpoint("total", "Active Instances", plugin["total"])
+    write_shield_endpoint("month", "New Monthly", plugin["month"])
+    write_shield_endpoint("week", "New Weekly", plugin["week"])
+
+
+# Update author shields endpoints
+print("Updating author shields")
+instances = {
+    "total": sum([e["total"] for e in DATA.values()]),
+    "month": sum([e["month"] for e in DATA.values()]),
+    "week": sum([e["week"] for e in DATA.values()]),
+}
+
+
+def write_shield_endpoint(name, label, message):
+    with open(os.path.join(SHIELDS_DIR, f"{name}.json"), "w+") as file:
+        json.dump({**DEFAULT_SHIELD, "label": label, "message": str(message)}, file)
+
+
+write_shield_endpoint("count", "Plugins", len(DATA))
+write_shield_endpoint("total", "Active Instances", instances["total"])
+write_shield_endpoint("month", "New Monthly", instances["month"])
+write_shield_endpoint("week", "New Weekly", instances["week"])
 
 print("Done!")
