@@ -1,24 +1,47 @@
 ---
-title: {{cookiecutter.your_name}}'s Plugin Stats
+title: OctoPrint Plugin Stats
 layout: base
+scripts:
+ - static/js/main-v1.js?v=1.2.2
 ---
 
 <section class="py-5 text-center container">
-    <div class="row py-lg-5">
+    <div class="row pt-lg-4 pb-2">
         <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">{{cookiecutter.your_name}}'s OctoPrint Plugin Statistics</h1>
+            <h1 class="fw-light">{{ page.title }}</h1>
             <div class="btn-group">
               <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" >Select Plugin</button>
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
               <div class="dropdown-menu" id="btnContainer">
+                {%- for plugin in site.data.stats %}
+                <a href="#{{ plugin.name }}" class="dropdown-item">{{ plugin.title }}</a>
+                {%- endfor %}
               </div>
             </div>
         </div>
     </div>
 </section>
 <section id="statsOverview" class="py-2 container">
-    <div class="row-fluid">
+  <div class="row-fluid text-center">
+    {%- for plugin in site.data.stats %}
+    <div id="{{ plugin.name }}" class="col-md-6 sm-sm-12">
+      <h4 class="text-center">
+        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}" target="_blank">{{ plugin.title }}</a>
+      </h4>
+      <div class="mb-2 text-center">
+        <a title="For OctoPrint" href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img src="https://img.shields.io/badge/OctoPrint-white?style=flat&logo=OctoPrint"></a>
+        <a title="Active Instances" href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Ftotal.json"></a>
+        <a title="New Monthly" href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Fmonth.json"></a>
+        <a title="New Weekly" href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Fweek.json"></a>
+        <br>
+        <a title="GitHub Forks" href="https://github.com/kForth/{{ plugin.title }}/network/members"><img src="https://img.shields.io/github/forks/kforth/{{ plugin.title }}?label=Forks&logo=GitHub&logoColor=black&labelColor=white&color=blue"></a>
+        <a title="GitHub Stars" href="https://github.com/kForth/{{ plugin.title }}/stargazers"><img src="https://img.shields.io/github/stars/kforth/{{ plugin.title }}?label=Stars&logo=GitHub&logoColor=black&labelColor=white&color=blue"></a>
+        <a title="GitHub Watchers" href="https://github.com/kForth/{{ plugin.title }}/watchers"><img src="https://img.shields.io/github/watchers/kforth/{{ plugin.title }}?label=Watchers&logo=GitHub&logoColor=black&labelColor=white&color=blue"></a>
+        <img alt="GitHub" src="https://img.shields.io/github/license/kforth/{{ plugin.title }}?labelColor=white&color=blue">
+      </div>
+      <div id="{{ plugin.name }}Instances" class="plugin-chart" data-plugin="{{ plugin.title }}" data-x="{{ plugin.history | map: 'date' | join: ' ' }}" data-y="{{ plugin.history | map: 'total' | join: ' ' }}"></div>
     </div>
+    {%- endfor %}
+  </div>
 </section>
-<script src="static/js/main-v1.js?v=1.2.2"></script>

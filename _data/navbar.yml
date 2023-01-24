@@ -1,0 +1,12 @@
+title: OctoPluginStats
+links:
+  - title: Plugins
+    icon: fa-puzzle-piece # https://fontawesome.com/v5/search
+    href: https://plugins.octoprint.org/by_author/#kestin-goforth
+  - title: My Github Profile
+    icon: fa-user
+    href: https://github.com/kforth
+  - title: Support My Projects
+    icon: fa-heart
+    href: https://github.com/sponsors/kforth
+source: https://github.com/kforth/OctoPluginStats

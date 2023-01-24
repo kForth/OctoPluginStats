@@ -8,3 +8,6 @@ _site
 .DS_Store
 Gemfile.lock
 venv
+package-lock.json
+yarn-error.log
+yarn.lock
