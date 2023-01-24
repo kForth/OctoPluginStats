@@ -30,11 +30,15 @@ scripts:
         <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}" target="_blank">{{ plugin.title }}</a>
       </h4>
       <div class="mb-2 text-center">
-        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img alt="For OctoPrint" src="https://img.shields.io/badge/OctoPrint-white?style=flat&logo=OctoPrint"></a>
-        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img alt="Active Instances" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Ftotal.json"></a>
-        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img alt="New Monthly" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Fmonth.json"></a>
-        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img alt="New Weekly" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Fweek.json"></a>
-        <img alt="GitHub" src="https://img.shields.io/github/license/kforth/{{ plugin.title }}?labelColor=white&color=brightgreen">
+        <a title="For OctoPrint" href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img src="https://img.shields.io/badge/OctoPrint-white?style=flat&logo=OctoPrint"></a>
+        <a title="Active Instances" href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Ftotal.json"></a>
+        <a title="New Monthly" href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Fmonth.json"></a>
+        <a title="New Weekly" href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Fweek.json"></a>
+        <br>
+        <a title="GitHub Forks" href="https://github.com/kForth/{{ plugin.title }}/network/members"><img src="https://img.shields.io/github/forks/kforth/{{ plugin.title }}?label=Forks&logo=GitHub&logoColor=black&labelColor=white&color=blue"></a>
+        <a title="GitHub Stars" href="https://github.com/kForth/{{ plugin.title }}/stargazers"><img src="https://img.shields.io/github/stars/kforth/{{ plugin.title }}?label=Stars&logo=GitHub&logoColor=black&labelColor=white&color=blue"></a>
+        <a title="GitHub Watchers" href="https://github.com/kForth/{{ plugin.title }}/watchers"><img src="https://img.shields.io/github/watchers/kforth/{{ plugin.title }}?label=Watchers&logo=GitHub&logoColor=black&labelColor=white&color=blue"></a>
+        <img alt="GitHub" src="https://img.shields.io/github/license/kforth/{{ plugin.title }}?labelColor=white&color=blue">
       </div>
       <div id="{{ plugin.name }}Instances" class="plugin-chart" data-plugin="{{ plugin.title }}" data-x="{{ plugin.history | map: 'date' | join: ' ' }}" data-y="{{ plugin.history | map: 'total' | join: ' ' }}"></div>
     </div>
