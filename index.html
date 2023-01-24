@@ -31,7 +31,9 @@ scripts:
       </h4>
       <div class="mb-2 text-center">
         <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img alt="For OctoPrint" src="https://img.shields.io/badge/OctoPrint-white?style=flat&logo=OctoPrint"></a>
-        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img alt="Total Installations" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Ftotal.json"></a>
+        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img alt="Active Instances" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Ftotal.json"></a>
+        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img alt="New Monthly" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Fmonth.json"></a>
+        <a href="https://plugins.octoprint.org/plugins/{{ plugin.name }}/" target="_blank"><img alt="New Weekly" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2F{{ plugin.name }}%2Fweek.json"></a>
         <img alt="GitHub" src="https://img.shields.io/github/license/kforth/{{ plugin.title }}?labelColor=white&color=brightgreen">
       </div>
       <div id="{{ plugin.name }}Instances" class="plugin-chart" data-plugin="{{ plugin.title }}" data-x="{{ plugin.history | map: 'date' | join: ' ' }}" data-y="{{ plugin.history | map: 'total' | join: ' ' }}"></div>
