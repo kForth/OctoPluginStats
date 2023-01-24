@@ -4,6 +4,11 @@
 [![GitHub Stars](https://img.shields.io/github/stars/kforth/OctoPluginStats?label=Stars&logo=GitHub&logoColor=black&labelColor=white&color=blue)](https://github.com/kForth/OctoPluginStats/stargazers)
 [![GitHub Watchers](https://img.shields.io/github/watchers/kforth/OctoPluginStats?label=Watchers&logo=GitHub&logoColor=black&labelColor=white&color=blue)](https://github.com/kForth/OctoPluginStats/watchers)
 
+[![Plugins](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2Fcount.json)](https://plugins.octoprint.org/plugins/by-author#kestin-goforth)
+[![Active Instances](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2Ftotal.json)](https://plugins.octoprint.org/plugins/by-author#kestin-goforth)
+[![New This Month](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2Fmonth.json)](https://plugins.octoprint.org/plugins/by-author#kestin-goforth)
+[![New This Week](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FkForth%2FOctoPluginStats%2Fmain%2Fshields%2Fweek.json)](https://plugins.octoprint.org/plugins/by-author#kestin-goforth)
+
 Github Pages site for tracking installation statistics about your OctoPrint plugins.
 
 It also hosts custom JSON endpoints for [shields.io](https://shields.io)!
