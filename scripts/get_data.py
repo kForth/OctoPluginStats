@@ -5,6 +5,7 @@ if not sys.version_info.major == 3 and int(sys.version_info.minor) >= 7:
     sys.exit(-1)
 
 import copy
+import json
 import os
 import re
 import time
@@ -18,6 +19,14 @@ PLUGIN_AUTHOR: str = "Kestin Goforth"
 DATA_URL: str = "https://plugins.octoprint.org/plugins.json"
 
 DATA: Dict[str, Dict[str, Union[int, str, list]]] = {}
+
+DEFAULT_SHIELD = {
+    "schemaVersion": 1,
+    "namedLogo": "OctoPrint",
+    "labelColor": "white",
+    "color": "brightgreen",
+    "style": "flat",
+}
 
 # DATA STRUCTURE:
 # {"plugin_id":
@@ -37,6 +46,7 @@ RE_GITHUB = re.compile(r"(?:https?:\/\/)github.com\/(?:.*)\/(.*)")
 
 DATA_DIR = os.path.abspath("_data")
 STATS_FILE = os.path.join(DATA_DIR, "stats.yml")
+SHIELDS_DIR = os.path.abspath("shields")
 
 # Read current data (if any)
 if os.path.isfile(STATS_FILE):
@@ -46,10 +56,9 @@ if os.path.isfile(STATS_FILE):
         DATA = {e["name"]: e for e in raw}
 
 # Get the data
-
 response = requests.get(DATA_URL).json()
 
-# iterate through, find my plugins
+# Iterate through, find plugins by author
 for plugin in response:
     if PLUGIN_AUTHOR in plugin["author"]:
         plugin_id = plugin["id"]
@@ -59,11 +68,13 @@ for plugin in response:
             existing_data = DATA[plugin_id]
         except (KeyError, TypeError):
             # Plugin not seen before, create the dict
-            DATA[plugin_id] = {"total": 0, "history": []}
+            DATA[plugin_id] = {"total": 0, "month": 0, "week": 0, "history": []}
 
         stats = copy.deepcopy(DATA[plugin_id])
         stats["name"] = plugin_id
         stats["total"] = plugin["stats"]["instances_month"]
+        stats["month"] = plugin["stats"]["install_events_month"]
+        stats["week"] = plugin["stats"]["install_events_week"]
 
         # Try to get the plugin title from the github homepage
         if re_match := RE_GITHUB.match(plugin["homepage"]):
@@ -94,5 +105,19 @@ for plugin in response:
 # write back to the file
 with open(STATS_FILE, "wt") as file:
     yaml.dump(list(DATA.values()), file, Dumper=yaml.Dumper)
+
+# Update shields endpoints
+for plugin in DATA.values():
+    PLUGIN_DIR = os.path.join(SHIELDS_DIR, plugin["name"])
+    print("Creating endpoints for {}".format(plugin["name"]))
+    os.makedirs(PLUGIN_DIR, exist_ok=True)
+
+    def write_shield_endpoint(name, label, message):
+        with open(os.path.join(PLUGIN_DIR, f"{name}.json"), "w+") as file:
+            json.dump({**DEFAULT_SHIELD, "label": label, "message": message}, file)
+
+    write_shield_endpoint("total", "Installations", str(plugin["total"]))
+    write_shield_endpoint("month", "This Month", str(plugin["month"]))
+    write_shield_endpoint("week", "This Week", str(plugin["week"]))
 
 print("Done!")
