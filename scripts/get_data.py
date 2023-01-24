@@ -116,8 +116,8 @@ for plugin in DATA.values():
         with open(os.path.join(PLUGIN_DIR, f"{name}.json"), "w+") as file:
             json.dump({**DEFAULT_SHIELD, "label": label, "message": message}, file)
 
-    write_shield_endpoint("total", "Installations", str(plugin["total"]))
-    write_shield_endpoint("month", "This Month", str(plugin["month"]))
-    write_shield_endpoint("week", "This Week", str(plugin["week"]))
+    write_shield_endpoint("total", "Active Instances", str(plugin["total"]))
+    write_shield_endpoint("month", "New Monthly", str(plugin["month"]))
+    write_shield_endpoint("week", "New Weekly", str(plugin["week"]))
 
 print("Done!")
