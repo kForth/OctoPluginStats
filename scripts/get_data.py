@@ -16,17 +16,17 @@ import yaml
 
 PLUGIN_AUTHOR: str = "Kestin Goforth"
 
-DATA_URL: str = "https://plugins.octoprint.org/plugins.json"
-
-DATA: Dict[str, Dict[str, Union[int, str, list]]] = {}
-
-DEFAULT_SHIELD = {
+DEFAULT_SHIELD: dict = {
     "schemaVersion": 1,
     "namedLogo": "OctoPrint",
     "labelColor": "white",
     "color": "brightgreen",
     "style": "flat",
 }
+
+DATA_URL: str = "https://plugins.octoprint.org/plugins.json"
+
+DATA: Dict[str, Dict[str, Union[int, str, list]]] = {}
 
 # DATA STRUCTURE:
 # {"plugin_id":
