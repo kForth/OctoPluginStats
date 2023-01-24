@@ -1,12 +1,12 @@
-title: OctoPluginStats
+title: {{cookiecutter.repo_name}}
 links:
   - title: Plugins
     icon: fa-puzzle-piece # https://fontawesome.com/v5/search
-    href: https://plugins.octoprint.org/by_author/#kestin-goforth
+    href: https://plugins.octoprint.org/by_author/#{{cookiecutter.your_name | lower | replace(' ', '-')}}
   - title: My Github Profile
     icon: fa-user
-    href: https://github.com/kforth
+    href: https://github.com/{{cookiecutter.github_username}}
   - title: Support My Projects
     icon: fa-heart
-    href: https://github.com/sponsors/kforth
-source: https://github.com/kforth/OctoPluginStats
+    href: https://github.com/sponsors/{{cookiecutter.github_username}}
+source: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}}
