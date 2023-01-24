@@ -1,3 +1,4 @@
+import itertools
 import sys
 
 if not sys.version_info.major == 3 and int(sys.version_info.minor) >= 7:
@@ -42,7 +43,8 @@ DATA: Dict[str, Dict[str, Union[int, str, list]]] = {}
 
 TODAY = time.strftime("%Y-%m-%d")
 
-RE_GITHUB = re.compile(r"(?:https?:\/\/)github.com\/(?:.*)\/(.*)")
+RE_GITHUB = re.compile(r"(?:https?:\/\/)?(?:www.)?github.com\/[^\/]*\/([^\/]*)\/?")
+RE_GHPAGES = re.compile(r"(?:https?:\/\/)?[^\/.]*.github.io\/([^\/]*)\/?")
 
 DATA_DIR = os.path.abspath("_data")
 STATS_FILE = os.path.join(DATA_DIR, "stats.yml")
@@ -76,10 +78,16 @@ for plugin in response:
         stats["month"] = plugin["stats"]["install_events_month"]
         stats["week"] = plugin["stats"]["install_events_week"]
 
-        # Try to get the plugin title from the github homepage
-        if re_match := RE_GITHUB.match(plugin["homepage"]):
-            stats["title"] = re_match.group(1)
+        # Try to get the plugin title from the homepage or archive
+        for (regex, url) in itertools.product(
+            (RE_GITHUB, RE_GHPAGES),
+            (plugin["homepage"], plugin["archive"]),
+        ):
+            if re_match := regex.match(url):
+                stats["title"] = re_match.group(1)
+                break
         else:
+            print("Cannot find title from urls")
             stats["title"] = plugin["title"]
 
         # Remove the 31st day, if relevant
