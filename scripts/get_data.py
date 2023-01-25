@@ -48,7 +48,16 @@ RE_GHPAGES = re.compile(r"(?:https?:\/\/)?[^\/.]*.github.io\/([^\/]*)\/?")
 
 DATA_DIR = os.path.abspath("_data")
 STATS_FILE = os.path.join(DATA_DIR, "stats.yml")
-SHIELDS_DIR = os.path.abspath("shields")
+AUTHOR_FILE = os.path.abspath("author.json")
+
+author = {
+    "name": PLUGIN_AUTHOR,
+    "plugins": 0,
+    "instances_month": 0,
+    "instances_week": 0,
+    "install_events_month": 0,
+    "install_events_week": 0,
+}
 
 # Read current data (if any)
 if os.path.isfile(STATS_FILE):
@@ -75,8 +84,6 @@ for plugin in response:
         stats = copy.deepcopy(DATA[plugin_id])
         stats["name"] = plugin_id
         stats["total"] = plugin["stats"]["instances_month"]
-        stats["month"] = plugin["stats"]["install_events_month"]
-        stats["week"] = plugin["stats"]["install_events_week"]
 
         # Try to get the plugin title from the homepage or archive
         for (regex, url) in itertools.product(
@@ -110,42 +117,20 @@ for plugin in response:
         # Put the data back
         DATA[plugin_id] = stats
 
+        # Update author info
+        author["plugins"] += 1
+        author["instances_month"] += plugin["stats"]["instances_month"]
+        author["instances_week"] += plugin["stats"]["instances_week"]
+        author["install_events_month"] += plugin["stats"]["install_events_month"]
+        author["install_events_week"] += plugin["stats"]["install_events_week"]
+
 # write back to the file
 with open(STATS_FILE, "wt") as file:
     yaml.dump(list(DATA.values()), file, Dumper=yaml.Dumper)
 
-# Update plugin shields endpoints
-for plugin in DATA.values():
-    PLUGIN_DIR = os.path.join(SHIELDS_DIR, plugin["name"])
-    print("Updating shields for {}".format(plugin["name"]))
-    os.makedirs(PLUGIN_DIR, exist_ok=True)
-
-    def write_shield_endpoint(name, label, message):
-        with open(os.path.join(PLUGIN_DIR, f"{name}.json"), "w+") as file:
-            json.dump({**DEFAULT_SHIELD, "label": label, "message": str(message)}, file)
-
-    write_shield_endpoint("total", "Active Instances", plugin["total"])
-    write_shield_endpoint("month", "New Monthly", plugin["month"])
-    write_shield_endpoint("week", "New Weekly", plugin["week"])
-
-
-# Update author shields endpoints
-print("Updating author shields")
-instances = {
-    "total": sum([e["total"] for e in DATA.values()]),
-    "month": sum([e["month"] for e in DATA.values()]),
-    "week": sum([e["week"] for e in DATA.values()]),
-}
-
-
-def write_shield_endpoint(name, label, message):
-    with open(os.path.join(SHIELDS_DIR, f"{name}.json"), "w+") as file:
-        json.dump({**DEFAULT_SHIELD, "label": label, "message": str(message)}, file)
-
-
-write_shield_endpoint("count", "Plugins", len(DATA))
-write_shield_endpoint("total", "Active Instances", instances["total"])
-write_shield_endpoint("month", "New Monthly", instances["month"])
-write_shield_endpoint("week", "New Weekly", instances["week"])
+# Update author stats
+print("Updating author stats")
+with open(AUTHOR_FILE, "wt") as file:
+    json.dump(author, file)
 
 print("Done!")
