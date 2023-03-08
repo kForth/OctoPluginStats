@@ -1,9 +1,4 @@
 - history:
-  - date: '2023-02-06'
-    issues:
-      closed: 0
-      open: 0
-    total: 26
   - date: '2023-02-07'
     issues:
       closed: 0
@@ -149,8 +144,13 @@
       closed: 0
       open: 0
     total: 18
+  - date: '2023-03-08'
+    issues:
+      closed: 0
+      open: 0
+    total: 20
   month: 3
   name: CreatbotUtil
   title: OctoPrint-CreatbotUtil
-  total: 18
+  total: 20
   week: 2
