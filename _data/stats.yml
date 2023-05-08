@@ -1,9 +1,4 @@
 - history:
-  - date: '2023-04-08'
-    issues:
-      closed: 0
-      open: 0
-    total: 25
   - date: '2023-04-09'
     issues:
       closed: 0
@@ -145,6 +140,11 @@
       open: 0
     total: 22
   - date: '2023-05-07'
+    issues:
+      closed: 0
+      open: 0
+    total: 22
+  - date: '2023-05-08'
     issues:
       closed: 0
       open: 0
