@@ -1,9 +1,4 @@
 - history:
-  - date: '2025-08-16'
-    issues:
-      closed: 0
-      open: 0
-    total: 15
   - date: '2025-08-17'
     issues:
       closed: 0
@@ -145,6 +140,11 @@
       open: 0
     total: 20
   - date: '2025-09-14'
+    issues:
+      closed: 0
+      open: 0
+    total: 20
+  - date: '2025-09-15'
     issues:
       closed: 0
       open: 0
